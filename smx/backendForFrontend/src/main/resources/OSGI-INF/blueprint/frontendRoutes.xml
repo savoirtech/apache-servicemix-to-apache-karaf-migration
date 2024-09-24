@@ -28,7 +28,7 @@
        http://camel.apache.org/schema/blueprint/cxf http://camel.apache.org/schema/blueprint/cxf/camel-cxf.xsd
        ">
 
-    <bean id="orderResponseProcessor" class="com.savoirtech.routes.JSONResponseProcessor"/>
+    <bean id="orderResponseProcessor" class="com.savoirtech.smx.app.rest.routes.JSONResponseProcessor"/>
 
     <!-- CXF Restful Component -->
 
@@ -37,7 +37,7 @@
 
     <!-- CXF restful server endpoint -->
     <cxf:rsServer id="orderService" address="http://localhost:9090/rest"
-                  serviceClass="com.savoirtech.rest.OrdersResource">
+                  serviceClass="com.savoirtech.smx.app.rest.api.OrdersResource">
         <cxf:providers>
             <ref component-id="jsonProvider"/>
         </cxf:providers>

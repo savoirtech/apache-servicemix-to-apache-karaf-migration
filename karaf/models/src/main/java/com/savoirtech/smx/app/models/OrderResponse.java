@@ -13,24 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.savoirtech.smx.app.rest.api;
 
-import com.savoirtech.smx.app.models.Order;
-import com.savoirtech.smx.app.models.OrderResponse;
+package com.savoirtech.smx.app.models;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
-@Path("/order/")
-public interface OrdersResource {
+@XmlRootElement(name = "OrderResponse")
+public class OrderResponse {
 
-    @POST
-    @Path("/add/")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    OrderResponse addOrder(Order order);
+    private String status;
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 }

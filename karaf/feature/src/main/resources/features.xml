@@ -1,4 +1,4 @@
-<features name="smx" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
+<features name="smx" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
 
     <!--
       ~ Copyright (c) 2012-2024 Savoir Technologies, Inc.
@@ -21,9 +21,11 @@
     <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
 
     <feature name="_smx-deps" version="${project.version}">
-        <feature version="${camel.version}">camel-blueprint</feature>
+        <bundle>mvn:jakarta.activation/jakarta.activation-api/2.0.1</bundle>
+        <bundle>mvn:jakarta.xml.bind/jakarta.xml.bind-api/3.0.0</bundle>
         <feature version="${camel.version}">camel-jackson</feature>
         <feature version="${camel.version}">camel-cxf</feature>
+        <feature>camel-blueprint</feature>
         <feature version="${cxf.version}">cxf</feature>
         <feature version="${activemq.version}">activemq-broker-noweb</feature>
         <feature version="${activemq.version}">activemq-camel</feature>

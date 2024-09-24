@@ -64,6 +64,11 @@
         <property name="configuration" ref="producerJmsConfig"/>
     </bean>
 
+    <!-- Product Splitter -->
+    <bean id="productSplitter" class="com.savoirtech.smx.app.impl.routes.ProductSplitter">
+        <property name="camelContext" ref="backEnd-camelContext"/>
+    </bean>
+
     <!-- Camel configuration -->
     <camelContext id="backEnd-camelContext" trace="false" xmlns="http://camel.apache.org/schema/blueprint" >
 

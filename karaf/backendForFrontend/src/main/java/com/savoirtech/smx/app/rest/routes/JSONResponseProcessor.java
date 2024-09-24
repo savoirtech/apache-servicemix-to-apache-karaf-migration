@@ -13,24 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.savoirtech.smx.app.rest.api;
+package com.savoirtech.smx.app.rest.routes;
 
-import com.savoirtech.smx.app.models.Order;
 import com.savoirtech.smx.app.models.OrderResponse;
+import org.apache.camel.Exchange;
+import org.apache.camel.Processor;
 
-import javax.ws.rs.Consumes;
-import javax.ws.rs.POST;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
+public class JSONResponseProcessor implements Processor {
 
-@Path("/order/")
-public interface OrdersResource {
+    @Override
+    public void process(Exchange exchange) throws Exception {
 
-    @POST
-    @Path("/add/")
-    @Produces({MediaType.APPLICATION_JSON})
-    @Consumes({MediaType.APPLICATION_JSON})
-    OrderResponse addOrder(Order order);
+        OrderResponse resp = new OrderResponse();
+        resp.setStatus("Thank you for your order!");
+        exchange.getOut().setBody(resp);
+
+    }
 
 }

@@ -1,0 +1,22 @@
+{
+  "order": {
+    "customer": {
+      "lastName": "Hessla",
+      "firstName": "Heaf",
+      "address": "1234 Main St",
+      "city": "Jackson Hole",
+      "state": "WY",
+      "zip": "83001"
+    },
+    "items": [
+      {
+        "product": "abc widget",
+        "quantity": 2
+      },
+      {
+        "product": "xyz widget",
+        "quantity": 1
+      }
+    ]
+  }
+}

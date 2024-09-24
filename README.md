@@ -12,8 +12,8 @@ a plethora of integration tooling including:
 - Apache Karaf 4.0.9
 
 As time moved on Apache Karaf has taken on the mantle of providing an
-integration focussed runtime environment. As of Apache Karaf
-4.5.0-SNAPSHOT, the following tooling will be provided:
+integration focussed runtime environment. As of Apache Karaf 4.4.6, the
+following tooling will be provided:
 
 - Apache Camel 3.6.0
 
@@ -21,10 +21,10 @@ integration focussed runtime environment. As of Apache Karaf
 
 - Apache ActiveMQ 5.17.1
 
-- Apache Karaf 4.5.0
+- Apache Karaf 4.4.6
 
 Underlying these updates is the general progress of Java ecosystems from
-Java 8 to Java 17 as a baseline build.
+Java 8 to Java 11 as a baseline build.
 
 ## Lets take a sample application and journey to the future!
 
@@ -33,26 +33,98 @@ application targeting Servicemix running on Java 8.
 
 Describe application here.
 
+Note: ActiveMQ will need to be setup in stand alone mode. For the
+purposes of the demo, a wild card serialization exception is made in env
+script.
+
+``` bash
+ACTIVEMQ_OPTS="-Dorg.apache.activemq.SERIALIZABLE_PACKAGES=*"
+```
+
+### Installing the Demo on ServiceMix 7.0.1
+
+``` bash
+feature:repo-add mvn:com.savoirtech.smx.app/feature/1.0.0-SNAPSHOT/xml/features
+
+feature:install smx-original-application
+```
+
+### Installing the Demo on Karaf 4.4.6
+
+``` bash
+feature:repo-add mvn:com.savoirtech.smx.app/feature/2.0.0-SNAPSHOT/xml/features
+
+feature:install smx-original-application
+```
+
+### Testing the Demo Application
+
+To execute the call to the restful service, be sure that you set your
+client to use the POST verb and point it to:
+
+<http://localhost:9090/rest/order/add/>
+
+From your terminal you can try the below command:
+
+``` bash
+ curl -d "@sampleOrder.json" -X POST http://localhost:9090/rest/order/add  -H "Content-Type: application/json"
+```
+
+You should get a response such as:
+
+``` bash
+{"OrderResponse":{"status":"Thank you for your order!"}}
+```
+
+Your payload should look something like this:
+
+``` json
+{
+  "order": {
+    "customer": {
+      "lastName": "Hessla",
+      "firstName": "Heaf",
+      "address": "1234 Main St",
+      "city": "Jackson Hole",
+      "state": "WY",
+      "zip": "83001"
+    },
+    "items": [
+      {
+        "product": "abc widget",
+        "quantity": 2
+      },
+      {
+        "product": "xyz widget",
+        "quantity": 1
+      }
+    ]
+  }
+}
+```
+
 ## Iterative approach
 
 While our demo application is small, we’ll forgo transforming it in a
 single step.
 
-### Dependency Update
+### Pom Plugin Updates
 
-Update our project dependencies one at a time.
+Update various maven plugins.
 
-### Methodology Update
+### Library updates
 
-Utilize BOM.
+Update our project dependencies.
 
-### Modernize
+### Adjust Code to newer libraries
 
-Switch from blueprint to SCR.
+Switch from Javax to Jakarta packages.
+
+Adapt Camel route to changed APIs.
 
 ## Conclusion
 
-Our demo application is now running in Apache Karaf 4.5.0-SNAPSHOT.
+Our demo application is now running in Apache Karaf 4.4.6.
 
 # About the Authors
 
