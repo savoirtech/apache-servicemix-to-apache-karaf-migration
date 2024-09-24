@@ -1,0 +1,43 @@
+<features name="fsto" xmlns="http://karaf.apache.org/xmlns/features/v1.3.0">
+
+    <!--
+      ~ Copyright (c) 2012-2024 Savoir Technologies, Inc.
+      ~
+      ~ Licensed under the Apache License, Version 2.0 (the "License");
+      ~ you may not use this file except in compliance with the License.
+      ~ You may obtain a copy of the License at
+      ~
+      ~      http://www.apache.org/licenses/LICENSE-2.0
+      ~
+      ~ Unless required by applicable law or agreed to in writing, software
+      ~ distributed under the License is distributed on an "AS IS" BASIS,
+      ~ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+      ~ See the License for the specific language governing permissions and
+      ~ limitations under the License.
+      -->
+
+    <repository>mvn:org.apache.camel.karaf/apache-camel/${camel.version}/xml/features</repository>
+    <repository>mvn:org.apache.activemq/activemq-karaf/${activemq.version}/xml/features</repository>
+    <repository>mvn:org.apache.cxf.karaf/apache-cxf/${cxf.version}/xml/features</repository>
+
+    <feature name="_smx-deps" version="${project.version}">
+        <feature version="${camel.version}">camel-blueprint</feature>
+        <feature version="${camel.version}">camel-jackson</feature>
+        <feature version="${camel.version}">camel-cxf</feature>
+        <feature version="${cxf.version}">cxf</feature>
+        <feature version="${activemq.version}">activemq-broker-noweb</feature>
+        <feature version="${activemq.version}">activemq-camel</feature>
+    </feature>
+
+    <feature name="smx-application" version="${project.version}">
+        <bundle>mvn:com.savoirtech.smx.app/models/${project.version}</bundle>
+        <bundle>mvn:com.savoirtech.smx.app/backendForFrontend/${project.version}</bundle>
+        <bundle>mvn:com.savoirtech.smx.app/downstreamServices/${project.version}</bundle>
+    </feature>
+
+    <feature name="smx-original-application" version="${project.version}">
+        <feature version="${project.version}">_smx-deps</feature>
+        <feature version="${project.version}">smx-application</feature>
+    </feature>
+
+</features>
