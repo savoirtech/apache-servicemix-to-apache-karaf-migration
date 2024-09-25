@@ -159,6 +159,11 @@ called "target". Within this directory you’ll find folders for "abc" and
 While our demo application is small, we’ll forgo transforming it in a
 single step.
 
+### First step - We’re now using base Java 11
+
+In our development environment we now source JAVA_HOME to Java 11.
+Apache Karaf 4.4.6 is based at Java 11, but can run newer Java editions.
+
 ### Pom Plugin Updates
 
 Update various maven plugins.
