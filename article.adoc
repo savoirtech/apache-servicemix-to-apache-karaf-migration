@@ -145,13 +145,108 @@ Note: New versions of supporting libraries & frameworks exist, these are just th
 
 ==== Adjust Code to newer libraries
 
-Switch from Javax to Jakarta packages.
+===== CXF
 
-Adapt Camel route to changed APIs.
+Updating our CXF services we encounter two issues; the namespace switch from Javax to Jakarta, and a small change to Json Provider.
+
+We modify uses of javax bind namespace to jakarta in the Models module:
+[,java,num]
+----
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
+----
+
+Then we update the providers in our backend for frontend CXFRS wiring:
+[,xml,num]
+----
+<!-- CXF restful server endpoint -->
+    <cxf:rsServer id="orderService" address="http://localhost:9090/rest"
+                  serviceClass="com.savoirtech.smx.app.rest.api.OrdersResource">
+        <cxf:providers>
+            <!-- We switch Json Provider to Jackson -->
+            <bean id="jacksonJaxbJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
+        </cxf:providers>
+    </cxf:rsServer>
+----
+
+We follow this up by enhancing the `Order` model with annotations to support proper serialization:
+
+[,java,num]
+----
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
+@JsonTypeName(value = "order")
+@JsonRootName(value = "order")
+public class Order implements Serializable {
+
+    // Adding Order getter.
+    public Order getOrder() {
+        return this;
+    }
+----
+
+===== Camel
+
+Apache Camel experiences a major version update from v2 to v3.
+
+For our demo application, this mostly affects how our `ProductSplitter` operates. Our first change is to adapt the class to accept a Camel `Exchange`, we then cast the Exchange In message body to our `Order` object.
+
+[,java,num]
+----
+import org.apache.camel.Exchange;
+import org.apache.camel.Message;
+import org.apache.camel.support.DefaultMessage; //Package change on Camel 3.
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProductSplitter {
+
+    // We now take Exchange from camel route and process its In Exchange.
+    public List<Message> splitProducts(Exchange exchange){
+
+        List<Message> messages = new ArrayList<Message>();
+
+        Object body = exchange.getIn().getBody();
+        Order order = (Order) body;
+
+        for(Item item : order.getItems()){
+
+            ProductOrder po = new ProductOrder();
+            po.setCustomer(order.getCustomer());
+            po.setProduct(item.getProduct());
+            po.setQuanitity(item.getQuantity());
+
+            DefaultMessage message = new DefaultMessage(exchange);
+            message.setBody(po);
+----
+
+The exchange object is then used to instantiate the `DefaultMessage` object we use to construct our return message.
+
+A small style change is then made to our downstream route to use our updated `ProductSplitter`:
+
+[,xml,num]
+----
+<bean id="splitter" class="com.savoirtech.smx.app.impl.routes.ProductSplitter"/>
+
+    <!-- Camel configuration -->
+    <camelContext id="backEnd-camelContext" trace="false" xmlns="http://camel.apache.org/schema/blueprint" >
+
+        <!-- Split the order to manufacturers -->
+        <route id="Splitter">
+            <from uri="jmsConsumer:queue:orders?disableReplyTo=true"/>
+            <split>
+                <method ref="splitter" method="splitProducts"/>
+----
 
 === Conclusion
 
-Our demo application is now running in Apache Karaf 4.4.6.
+After applying iteratively our migration steps, our demo application is now running on Apache Karaf 4.4.6.
+
+For the purposes of this article, we updated the application version to 2.0.0-SNAPSHOT to help delineate the underlying runtime changes, our end users should however not feel a change as our external API remains the same, and our downstream services still get the files they expect.
+
+Given the various changes underneath our application, the migration was relatively painless, and now our users & developers get to benefit from all the features of newer Java runtimes, Jakarta namespaces, CXF, Camel, and ActiveMQ enhancements!
 
 == About the Authors
 
