@@ -20,7 +20,23 @@ Underlying these updates is the general progress of Java ecosystems from Java 8 
 
 To help illustrate our migration procedure we've written a small demo application targeting Servicemix running on Java 8.
 
-Describe application here.
+The demo application implements a portion of a Backend for Frontend pattern.
+
+image::./assets/images/BFFPattern.png[alt=BFFPattern,width=480,height=640,align="center"]
+
+This pattern is commonly used by teams to provide Restful-API support to a variety of clients. Each BFF is connected to various down stream services.
+
+image::./assets/images/RouteView.png[alt=RouteView,width=480,height=640,align="center"]
+
+In our case, we implement two sets of routes to implement the frontend Rest service, and supply down stream services.
+
+The Backend for Frontend routes provides a CXF JAX-RS powered API, which immediately replies back to the caller that an order has been received. A wiretap sends a copy of the order for down stream processing.
+
+The Downstream Services routes provides a splitter which can determine which manufacture our order needs to be notified. Here we write out to a file containing order details to each manufacture.
+
+A common set of Models are provided to the routes to align serialization.
+
+The inclusion of ActiveMQ between these two sets of routes provides a back pressure mechanism, and opportunity to scale route services horizontally pending operational loads.
 
 Note: ActiveMQ will need to be setup in stand-alone mode.
 For the purposes of the demo, a wild card serialization exception is made in env script.
