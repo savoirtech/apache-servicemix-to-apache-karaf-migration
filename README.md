@@ -158,12 +158,36 @@ just the base versions available.
 
 ### Adjust Code to newer libraries
 
-#### CXF
+#### CXF Adaptions
 
 Updating our CXF services we encounter two issues; the namespace switch
 from Javax to Jakarta, and a small change to Json Provider.
 
-We modify uses of javax bind namespace to jakarta in the Models module:
+At first we need to add a few dependencies to our Model:
+
+``` xml
+<dependencies>
+    <dependency>
+        <groupId>jakarta.xml.bind</groupId>
+        <artifactId>jakarta.xml.bind-api</artifactId>
+        <version>3.0.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.sun.xml.bind</groupId>
+        <artifactId>jaxb-impl</artifactId>
+        <version>3.0.0</version>
+        <scope>runtime</scope>
+    </dependency>
+    <dependency>
+        <groupId>com.fasterxml.jackson.module</groupId>
+        <artifactId>jackson-module-jaxb-annotations</artifactId>
+        <version>2.10.1</version>
+    </dependency>
+</dependencies>
+```
+
+Next, we modify uses of javax bind namespace to jakarta in the Models
+module:
 
 ``` java
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -200,7 +224,7 @@ public class Order implements Serializable {
     }
 ```
 
-#### Camel
+#### Camel Adaptions
 
 Apache Camel experiences a major version update from v2 to v3.
 
