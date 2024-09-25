@@ -18,7 +18,7 @@ package com.savoirtech.smx.app.impl.routes;
 import com.savoirtech.smx.app.models.Item;
 import com.savoirtech.smx.app.models.Order;
 import com.savoirtech.smx.app.models.ProductOrder;
-import org.apache.camel.CamelContext;
+import org.apache.camel.Exchange;
 import org.apache.camel.Message;
 import org.apache.camel.support.DefaultMessage; //Package change on Camel 3.
 
@@ -27,15 +27,13 @@ import java.util.List;
 
 public class ProductSplitter {
 
-    private CamelContext camelContext;
 
-    public void setCamelContext(CamelContext camelContext) {
-        this.camelContext = camelContext;
-    }
-
-    public List<Message> splitProducts(Order order){
+    public List<Message> splitProducts(Exchange exchange){
 
         List<Message> messages = new ArrayList<Message>();
+
+        Object body = exchange.getIn().getBody();
+        Order order = (Order) body;
 
         for(Item item : order.getItems()){
 
@@ -44,7 +42,7 @@ public class ProductSplitter {
             po.setProduct(item.getProduct());
             po.setQuanitity(item.getQuantity());
 
-            DefaultMessage message = new DefaultMessage(camelContext);
+            DefaultMessage message = new DefaultMessage(exchange);
             message.setBody(po);
 
             //Set the header with the manufacturer

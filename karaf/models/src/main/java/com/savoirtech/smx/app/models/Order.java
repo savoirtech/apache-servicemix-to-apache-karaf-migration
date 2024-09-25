@@ -16,6 +16,9 @@
 
 package com.savoirtech.smx.app.models;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.annotation.JsonRootName;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -23,9 +26,16 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.util.ArrayList;
 
-@XmlAccessorType(XmlAccessType.FIELD)
+@XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "order")
+@JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
+@JsonTypeName(value = "order")
+@JsonRootName(value = "order")
 public class Order implements Serializable {
+
+    public Order getOrder() {
+        return this;
+    }
 
     @XmlElement(required = true)
     private Customer customer;
@@ -47,4 +57,5 @@ public class Order implements Serializable {
     public void setItems(ArrayList<Item> items) {
         this.items = items;
     }
+
 }

@@ -89,6 +89,12 @@
             <version>${jettison.version}</version>
         </dependency>
 
+        <dependency>
+            <groupId>com.fasterxml.jackson.module</groupId>
+            <artifactId>jackson-module-jaxb-annotations</artifactId>
+            <version>2.10.1</version>
+        </dependency>
+
         <!-- SLF4J -->
 
         <dependency>

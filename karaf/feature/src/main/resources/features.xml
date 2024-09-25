@@ -1,4 +1,4 @@
-<features name="smx" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+<features name="smx" xmlns="http://karaf.apache.org/xmlns/features/v1.6.0">
 
     <!--
       ~ Copyright (c) 2012-2024 Savoir Technologies, Inc.
@@ -39,7 +39,10 @@
 
     <feature name="smx-original-application" version="${project.version}">
         <feature version="${project.version}">_smx-deps</feature>
-        <feature version="${project.version}">smx-application</feature>
+        <conditional>
+            <condition>_smx-deps</condition>
+        </conditional>
+        <feature version="${project.version}">_smx-application</feature>
     </feature>
 
 </features>

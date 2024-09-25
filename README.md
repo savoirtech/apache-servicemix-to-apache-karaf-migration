@@ -70,13 +70,8 @@ From your terminal you can try the below command:
  curl -d "@sampleOrder.json" -X POST http://localhost:9090/rest/order/add  -H "Content-Type: application/json"
 ```
 
-You should get a response such as:
-
-``` bash
-{"OrderResponse":{"status":"Thank you for your order!"}}
-```
-
-Your payload should look something like this:
+Your payload should look something like this (we’ve supplied
+sampleOrder.json in the repo):
 
 ``` json
 {
@@ -102,6 +97,16 @@ Your payload should look something like this:
   }
 }
 ```
+
+You should get a response such as:
+
+``` bash
+{"OrderResponse":{"status":"Thank you for your order!"}}
+```
+
+Checking your runtime container home folder, you’ll find a new directory
+called "target". Within this directory you’ll find folders for "abc" and
+"xyz", containing json order files.
 
 ## Iterative approach
 

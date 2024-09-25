@@ -64,19 +64,16 @@
         <property name="configuration" ref="producerJmsConfig"/>
     </bean>
 
-    <!-- Product Splitter -->
-    <bean id="productSplitter" class="com.savoirtech.smx.app.impl.routes.ProductSplitter">
-        <property name="camelContext" ref="backEnd-camelContext"/>
-    </bean>
+    <bean id="splitter" class="com.savoirtech.smx.app.impl.routes.ProductSplitter"/>
 
     <!-- Camel configuration -->
     <camelContext id="backEnd-camelContext" trace="false" xmlns="http://camel.apache.org/schema/blueprint" >
 
         <!-- Split the order to manufacturers -->
-        <route>
+        <route id="Splitter">
             <from uri="jmsConsumer:queue:orders?disableReplyTo=true"/>
             <split>
-                <method beanType="com.savoirtech.smx.app.impl.routes.ProductSplitter" method="splitProducts"/>
+                <method ref="splitter" method="splitProducts"/>
                 <choice>
                     <when>
                         <simple>${in.header.manufacturer} == 'abc'</simple>
@@ -94,7 +91,7 @@
         </route>
 
         <!-- ABC Company's route -->
-        <route>
+        <route id="abc">
             <from uri="jmsConsumer:queue:abc_company?disableReplyTo=true"/>
             <marshal>
                 <json library="Jackson" prettyPrint="true"/>
@@ -103,7 +100,7 @@
         </route>
 
         <!-- XYZ Company's route -->
-        <route>
+        <route id="xyz">
             <from uri="jmsConsumer:queue:xyz_company?disableReplyTo=true"/>
             <marshal>
                 <json library="Jackson" prettyPrint="true"/>

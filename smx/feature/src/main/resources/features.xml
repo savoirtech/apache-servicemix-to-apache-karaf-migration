@@ -37,7 +37,7 @@
 
     <feature name="smx-original-application" version="${project.version}">
         <feature version="${project.version}">_smx-deps</feature>
-        <feature version="${project.version}">smx-application</feature>
+        <feature version="${project.version}">_smx-application</feature>
     </feature>
 
 </features>

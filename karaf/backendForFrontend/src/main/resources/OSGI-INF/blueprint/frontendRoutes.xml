@@ -30,16 +30,11 @@
 
     <bean id="orderResponseProcessor" class="com.savoirtech.smx.app.rest.routes.JSONResponseProcessor"/>
 
-    <!-- CXF Restful Component -->
-
-    <!-- Instantiate a jsonProvider to handle JSON payloads -->
-    <bean id="jsonProvider" class="org.apache.cxf.jaxrs.provider.json.JSONProvider"/>
-
     <!-- CXF restful server endpoint -->
     <cxf:rsServer id="orderService" address="http://localhost:9090/rest"
                   serviceClass="com.savoirtech.smx.app.rest.api.OrdersResource">
         <cxf:providers>
-            <ref component-id="jsonProvider"/>
+            <bean id="jacksonJaxbJsonProvider" class="com.fasterxml.jackson.jaxrs.json.JacksonJaxbJsonProvider"/>
         </cxf:providers>
     </cxf:rsServer>
 
@@ -72,7 +67,7 @@
 
         <!-- Accept the order -->
         <route>
-            <from uri="cxfrs:bean:orderService"/>
+            <from uri="cxfrs:bean:orderService?bindingStyle=SimpleConsumer"/>
             <wireTap uri="jmsProducer:queue:orders?disableReplyTo=true"/>
             <process ref="orderResponseProcessor"/>
         </route>
