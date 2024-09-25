@@ -12,8 +12,8 @@ a plethora of integration tooling including:
 - Apache Karaf 4.0.9
 
 As time moved on Apache Karaf has taken on the mantle of providing an
-integration focussed runtime environment. As of Apache Karaf 4.4.6, the
-following tooling will be provided:
+integration runtime environment. As of Apache Karaf 4.4.6, the following
+tooling is provided out-of-the-box:
 
 - Apache Camel 3.6.0
 
@@ -33,7 +33,7 @@ application targeting Servicemix running on Java 8.
 
 Describe application here.
 
-Note: ActiveMQ will need to be setup in stand alone mode. For the
+Note: ActiveMQ will need to be setup in stand-alone mode. For the
 purposes of the demo, a wild card serialization exception is made in env
 script.
 
@@ -43,6 +43,15 @@ ACTIVEMQ_OPTS="-Dorg.apache.activemq.SERIALIZABLE_PACKAGES=*"
 
 ### Installing the Demo on ServiceMix 7.0.1
 
+Now that we’ve discussed our demo application, lets take a look at it
+operating on Servicemix and Karaf.
+
+Enter the `smx` folder, and execute `mvn clean install`. This will build
+the application for Servicemix.
+
+We can install demo application 1.0.0-SNAPSHOT using the following
+Servicemix console commands:
+
 ``` bash
 feature:repo-add mvn:com.savoirtech.smx.app/feature/1.0.0-SNAPSHOT/xml/features
 
@@ -50,6 +59,12 @@ feature:install smx-original-application
 ```
 
 ### Installing the Demo on Karaf 4.4.6
+
+Enter the `karaf` folder, and execute `mvn clean install`. This will
+build the application for Karaf.
+
+We can install demo application 2.0.0-SNAPSHOT using the following Karaf
+console commands:
 
 ``` bash
 feature:repo-add mvn:com.savoirtech.smx.app/feature/2.0.0-SNAPSHOT/xml/features
@@ -117,9 +132,29 @@ single step.
 
 Update various maven plugins.
 
+| Plugin                 | SMX   | Karaf  |
+|------------------------|-------|--------|
+| maven-compiler-plugin  | 3.3   | 3.13.0 |
+| maven-bundle-plugin    | 2.4.0 | 5.1.9  |
+| maven-resources-plugin | 2.6   | 3.3.1  |
+
 ### Library updates
 
-Update our project dependencies.
+Update our project dependencies to make the container.
+
+``` xml
+<properties>
+    <karaf.version>4.4.6</karaf.version>
+    <cxf.version>3.5.5</cxf.version>
+    <camel.version>3.6.0</camel.version>
+    <activemq.version>5.17.1</activemq.version>
+    <jettison.version>1.4.1</jettison.version>
+    <slf4j.version>2.0.12</slf4j.version>
+</properties>
+```
+
+Note: New versions of supporting libraries & frameworks exist, these are
+just the base versions available.
 
 ### Adjust Code to newer libraries
 

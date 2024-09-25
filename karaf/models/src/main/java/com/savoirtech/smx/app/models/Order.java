@@ -28,11 +28,13 @@ import java.util.ArrayList;
 
 @XmlAccessorType(XmlAccessType.PROPERTY)
 @XmlRootElement(name = "order")
+// Added Jackson annotations for Order wrapper object
 @JsonTypeInfo(include = JsonTypeInfo.As.WRAPPER_OBJECT, use = JsonTypeInfo.Id.NAME)
 @JsonTypeName(value = "order")
 @JsonRootName(value = "order")
 public class Order implements Serializable {
 
+    // Adding Order getter.
     public Order getOrder() {
         return this;
     }

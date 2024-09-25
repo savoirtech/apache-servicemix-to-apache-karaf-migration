@@ -35,7 +35,7 @@
     </prerequisites>
 
     <properties>
-        <karaf.version>4.5.0-SNAPSHOT</karaf.version>
+        <karaf.version>4.4.6</karaf.version>
         <cxf.version>3.5.5</cxf.version>
         <camel.version>3.6.0</camel.version>
         <activemq.version>5.17.1</activemq.version>

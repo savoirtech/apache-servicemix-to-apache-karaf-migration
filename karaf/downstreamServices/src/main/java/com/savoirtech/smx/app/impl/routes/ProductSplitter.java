@@ -27,7 +27,7 @@ import java.util.List;
 
 public class ProductSplitter {
 
-
+    // We now take Exchange from camel route and process its In Exchange.
     public List<Message> splitProducts(Exchange exchange){
 
         List<Message> messages = new ArrayList<Message>();

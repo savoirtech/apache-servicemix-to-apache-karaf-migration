@@ -39,6 +39,7 @@
 
     <feature name="smx-original-application" version="${project.version}">
         <feature version="${project.version}">_smx-deps</feature>
+        <!-- Added conditional to ensure all dependencies are fully loaded before adding our app. -->
         <conditional>
             <condition>_smx-deps</condition>
         </conditional>

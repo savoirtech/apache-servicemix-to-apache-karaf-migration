@@ -35,6 +35,7 @@
     <name>SMX :: Common Model Library</name>
     <description>Common Library</description>
 
+    <!-- Dependency updates  -->
     <dependencies>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
